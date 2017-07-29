@@ -1,8 +1,11 @@
+from __future__ import print_function
+
 import argparse
 import os
 import sys
 import stat
-import git_pre_commit_hook_utils
+
+from . import utils as git_pre_commit_hook_utils
 
 
 plugins = {}
@@ -19,16 +22,16 @@ def load_plugins():
 
 def list_plugins(args):
     for plugin_name, plugin_module in plugins.items():
-        print plugin_name, '-', plugin_module.__doc__
+        print(plugin_name, '-', plugin_module.__doc__)
     return 0
 
 
 def show_plugin_info(args):
     if args.name not in plugins:
         raise RuntimeError("Plugin '%s' doesn't exists" % (args.name))
-    print args.name, '-', plugins[args.name].__doc__
-    print 'Defaults:'
-    print getattr(plugins[args.name], 'DEFAULTS', None)
+    print(args.name, '-', plugins[args.name].__doc__)
+    print('Defaults:')
+    print(getattr(plugins[args.name], 'DEFAULTS', None))
     return 0
 
 
@@ -115,7 +118,7 @@ def main(args=None):
     try:
         return args.func(args)
     except RuntimeError as e:
-        print e
+        print(e)
         return 1
     else:
         return 0
